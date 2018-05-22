@@ -1,6 +1,8 @@
 package pkgApp.controller;
 
 import java.net.URL;
+
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -66,7 +68,7 @@ public class RetirementController implements Initializable {
 		// "\\d*(\\.\\d*)?" means any decimal, then optionally a period (.), then
 		// decmial
 		hmTextFieldRegEx.put(txtYearsToWork, "\\d*?");
-		hmTextFieldRegEx.put(txtAnnualReturnWorking, "\\d*(\\.\\d*)?");
+		
 
 		// Check out these pages (how to validate controls):
 		// https://stackoverflow.com/questions/30935279/javafx-input-validation-textfield
@@ -98,11 +100,61 @@ public class RetirementController implements Initializable {
 
 		//
 		// TODO: Validate Working Annual Return %, accept only numbers and decimals
+		hmTextFieldRegEx.put(txtAnnualReturnWorking, "\\d*(\\.\\d*)?");
+		textField.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+	        if (!newValue) { //when focus lost
+	            if(!textField.getText().matches("[0-19](\\.[0-9]){0,1}|20(.0){0,1}")){
+	                //when it not matches the pattern (1.0 - 6.0)
+	                //set the textField empty
+	                textField.setText("");
+	            }
+	        }
+
+		
 		// TODO: Validate Years retired, accepted only decimals
+		hmTextFieldRegEx.put(txtYearsRetired, "\\d*?");
+		textField.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+	        if (!newValue) { //when focus lost
+	            if(!textField.getText().matches("[0-19](\\.[0-9]){0,1}|20(.0){0,1}")){
+	                //when it not matches the pattern (1.0 - 6.0)
+	                //set the textField empty
+	                textField.setText("");
+	            }
+	        }
+
+		
 		// TODO: Validate Retired Annual Return %, accept only numbers and deciamls
+		hmTextFieldRegEx.put(txtAnnualReturnRetired, "\\d*(\\.\\d*)?");
+		hmTextFieldRegEx.put(txtRequiredIncome, "\\d*?");
+		textField.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+	        if (!newValue) { //when focus lost
+	            if(!textField.getText().matches("[0-9](\\.[0-9]){0,1}|10(.0){0,1}")){
+	                //when it not matches the pattern (1.0 - 6.0)
+	                //set the textField empty
+	                textField.setText("");
+	            }
+	        }
+		
 		// TODO: Validate Required Income, accept only decimals
+		hmTextFieldRegEx.put(txtRequiredIncome, "\\d*?");
+		textField.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+	        if (!newValue) { //when focus lost
+	            if(!textField.getText().matches("[2642-9999](\\.[0-9]){0,1}|10000(.0){0,1}")){
+	                //when it not matches the pattern (1.0 - 6.0)
+	                //set the textField empty
+	                textField.setText("");
+	            }
+	        }
 		// TODO: Validate Monthly SSI, accept only decimals
-	}
+		hmTextFieldRegEx.put(txtMonthlySSI, "\\d*?");
+		textField.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+	        if (!newValue) { //when focus lost
+	            if(!textField.getText().matches("[0-2641](\\.[0-9]){0,1}|2642(.0){0,1}")){
+	                //when it not matches the pattern (1.0 - 6.0)
+	                //set the textField empty
+	                textField.setText("");
+	            }
+	        }
 
 	@FXML
 	public void btnClear(ActionEvent event) {
@@ -118,6 +170,17 @@ public class RetirementController implements Initializable {
 
 		// TODO: Clear, enable the rest of the input controls. Hint! You already have a
 		// HashMap of all the input controls....!!!!
+		hmTextFieldRegEx.clear();
+		txtAnnualReturnWorking.setDisable(false);
+		txtYearsRetired.setDisable(false);
+		txtAnnualReturnRetired.setDisable(false);
+		txtRequiredIncome.setDisable(false);
+		txtMonthlySSI.setDisable(false);
+		
+		
+		
+		
+		
 	}
 
 	@FXML
@@ -129,7 +192,13 @@ public class RetirementController implements Initializable {
 		txtWhatYouNeedToSave.setDisable(false);
 
 		// TODO: Calculate txtWhatYouNeedToSave value...
+		Retirement CWYNTS = new Retirement(getiYearsToWork(), getdAnnualReturnWorking(), 20, 0.02, 10000.00, 2642.00);
+		CWYNTS.TotalAmountToSave();
+		
 		// TODO: Then calculate txtSaveEachMonth, using amount from txtWhatYouNeedToSave
 		// as input
+		Retirement CSEM = new Retirement();
+		CSEM.MonthlySavings();
+		
 	}
 }

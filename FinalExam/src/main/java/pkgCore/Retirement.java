@@ -25,14 +25,14 @@ public class Retirement {
 	public double MonthlySavings() {
 
 		//TODO: Calculate AmountToSave
-		double pmt = 0; // <-- this should be fixed to calculate the real pmt
+		double pmt = PMT(dAnnualReturnRetired / 12, (double) iYearsRetired * 12, TotalAmountToSave(), 0.0, false); // <-- this should be fixed to calculate the real pmt
 		return pmt;
 	}
 
 	public double TotalAmountToSave() {
 		
 		//TODO: Calculate the Total Amount Requried to save
-		double pv = 0;
+		double pv = PV(dAnnualReturnRetired / 12, (double) iYearsRetired * 12, dRequiredIncome - dMonthlySSI, 0.0, false);
 		//	Hint: Here's how to round a number: pv = Math.round(pv * 100.0) / 100.0;
 		return pv;
 	}
@@ -102,4 +102,5 @@ public class Retirement {
 	public void setdMonthlySSI(double dMonthlySSI) {
 		this.dMonthlySSI = dMonthlySSI;
 	}
+	
 }
